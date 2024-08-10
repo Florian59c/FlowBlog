@@ -1,0 +1,5 @@
+la commande pour lancer le server de developpement en symfony v5 sur le port 8000 est : php -S localhost:8000 -t public
+pour creer une entité : php bin/console make:entity
+pour creer une bdd : php bin/console doctrine:database:create
+pour mettre à jour la bdd (faire une migration) : php bin/console doctrine:migrations:migrate
+pour mettre en place cors : composer require nelmio/cors-bundle
