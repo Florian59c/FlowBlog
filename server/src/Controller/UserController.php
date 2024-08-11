@@ -12,9 +12,9 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/getUser", name="getUser")
+     * @Route("/getAllUsers", name="getAllUsers")
      */
-    public function getUser(UserRepository $userRepository): Response
+    public function getAllUsers(UserRepository $userRepository): Response
     {
         $users = $userRepository->findAll();
         
@@ -38,7 +38,7 @@ class UserController extends AbstractController
 
         $userRepository->add($user, true);
 
-        return $this->json($data,201);
+        return $this->json(true);
     }
 
     /**
@@ -53,16 +53,27 @@ class UserController extends AbstractController
     }
 
     /**
+     * @Route("/findIdByMail", name="findIdByMail")
+     */
+    public function findIdByMail(UserRepository $userRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $curentUser = $userRepository->findOneBy(['mail' => $data['mail']]);
+
+        return $this->json($curentUser->getId());
+    }
+
+    /**
      * @Route("/login", name="login")
      */
     public function login(UserRepository $userRepository, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
-        $test = $userRepository->findOneBy([
+        $isFind = $userRepository->findOneBy([
             'mail' => $data['mail'],
             'password' => $data['password'],
         ]);
-        if ($test === null) {
+        if ($isFind === null) {
             return $this->json(false);
         } else {
             return $this->json(true);

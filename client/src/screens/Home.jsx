@@ -5,9 +5,17 @@ import { Link } from 'react-router-dom';
 
 function Home() {
     const [users, setUsers] = useState([]);
+    const [currentUserId, setCurrentUserId] = useState("");
 
     useEffect(() => {
-        axios.get('http://localhost:8000/getUser')
+        const currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
+        if (currentUserId) {
+            setCurrentUserId(currentUserId);
+        }
+    }, []);
+
+    useEffect(() => {
+        axios.get('http://localhost:8000/getAllUsers')
             .then(response => {
                 setUsers(response.data);
             })
@@ -26,10 +34,21 @@ function Home() {
                     </div>
                 ))
             }
-
-            <Link to="/login" >
-                <button>se connecter</button>
-            </Link>
+            {currentUserId ?
+                <button
+                    onClick={async () => {
+                        localStorage.removeItem('currentUserId');
+                        setCurrentUserId("")
+                    }}
+                >
+                    se déconnecter
+                </button>
+                :
+                <Link to="/login" >
+                    <button>se connecter</button>
+                </Link>
+            }
+            {currentUserId}
         </div>
     );
 }
