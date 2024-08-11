@@ -17,15 +17,8 @@ class UserController extends AbstractController
     public function getUser(UserRepository $userRepository): Response
     {
         $users = $userRepository->findAll();
-        $data = array();
-        foreach ($users as $key => $user) {
-            $data[$key]['id'] = $user->getId();
-            $data[$key]['pseudo'] = $user->getPseudo();
-            $data[$key]['mail'] = $user->getMail();
-            $data[$key]['role'] = $user->getRole();
-            $data[$key]['is_veridied'] = $user->isIsVerified();
-        }
-        return $this->json($data);
+        
+        return $this->json($users);
     }
     
     /**
