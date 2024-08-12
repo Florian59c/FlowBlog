@@ -45,4 +45,22 @@ class PostController extends AbstractController
             return $this->json(false);
         }
     }
+
+    /**
+     * @Route("/deletePost", name="deletePost")
+     */
+    public function deletePost(PostRepository $postRepository, UserRepository $userRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $currentUserId = $data['currentUserId'];
+        $currentUser = $userRepository->findOneBy(['id' => $currentUserId]);
+        $post = $postRepository->findOneBy(['id' => $data['postId']]);
+        $authorId = $post->getAuthor()->getId();
+        if ($currentUser->getRole() === "ADMIN" && $authorId === $currentUser->getId()) {
+            $postRepository->remove($post, true);
+            return $this->json(true);
+        } else {
+            return $this->json(false);
+        }
+    }
 }
