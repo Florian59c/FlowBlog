@@ -27,18 +27,29 @@ class UserController extends AbstractController
     public function createUser(UserRepository $userRepository, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
-        $user = new User();
-        $user->setPseudo($data['pseudo']);
-        $user->setMail($data['mail']);
-        // $hashedPassword = hashPassword($data['password']);
-        // $user->setPassword($hashedPassword);
-        $user->setPassword($data['password']);
-        $user->setRole("USER");
-        $user->setIsVerified(false);
+        
+        $pseudo = $userRepository->findOneBy(['pseudo' => $data['pseudo']]);
+        $mail = $userRepository->findOneBy(['mail' => $data['mail']]);
+        if ($pseudo && $mail) {
+            return $this->json("error");
+        } else if ($pseudo) {
+            return $this->json("errorPseudo");
+        } else if ($mail) {
+            return $this->json("errorMail");
+        } else {
+            $user = new User();
+            $user->setPseudo($data['pseudo']);
+            $user->setMail($data['mail']);
+            // $hashedPassword = hashPassword($data['password']);
+            // $user->setPassword($hashedPassword);
+            $user->setPassword($data['password']);
+            $user->setRole("USER");
+            $user->setIsVerified(false);
 
-        $userRepository->add($user, true);
+            $userRepository->add($user, true);
 
-        return $this->json(true);
+            return $this->json("created");
+        }
     }
 
     /**
