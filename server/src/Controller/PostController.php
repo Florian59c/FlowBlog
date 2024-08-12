@@ -52,8 +52,7 @@ class PostController extends AbstractController
     public function deletePost(PostRepository $postRepository, UserRepository $userRepository, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
-        $currentUserId = $data['currentUserId'];
-        $currentUser = $userRepository->findOneBy(['id' => $currentUserId]);
+        $currentUser = $userRepository->findOneBy(['id' => $data['currentUserId']]);
         $post = $postRepository->findOneBy(['id' => $data['postId']]);
         $authorId = $post->getAuthor()->getId();
         if ($currentUser->getRole() === "ADMIN" && $authorId === $currentUser->getId()) {
