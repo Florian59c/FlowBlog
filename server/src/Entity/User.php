@@ -50,11 +50,13 @@ class User
 
     /**
      * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author")
+     * @Ignore()
      */
     private $posts;
 
     /**
      * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user_id")
+     * @Ignore()
      */
     private $comments;
 
