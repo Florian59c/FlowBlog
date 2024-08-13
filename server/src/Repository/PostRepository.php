@@ -39,6 +39,11 @@ class PostRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllWithDate(): array
+   {
+        return $this->findBy(array(), array('last_date' => 'DESC'));
+   }
+
 //    /**
 //     * @return Post[] Returns an array of Post objects
 //     */
