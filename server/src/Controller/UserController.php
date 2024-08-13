@@ -32,7 +32,6 @@ class UserController extends AbstractController
         
         $pseudo = $userRepository->findOneBy(['pseudo' => $data['pseudo']]);
         $mail = $userRepository->findOneBy(['mail' => $data['mail']]);
-        $plaintextPassword = $data['password'];
         if ($pseudo && $mail) {
             return $this->json("error");
         } else if ($pseudo) {
@@ -43,16 +42,11 @@ class UserController extends AbstractController
             $user = new User();
             $user->setPseudo($data['pseudo']);
             $user->setMail($data['mail']);
-
-            ////////
             $hashedPassword = $passwordHasher->hashPassword(
                 $user,
-                $plaintextPassword
+                $data['password']
             );
             $user->setPassword($hashedPassword);
-            // $user->setPassword($data['password']);
-            ////////
-
             $user->setRole("USER");
             $user->setIsVerified(false);
 
