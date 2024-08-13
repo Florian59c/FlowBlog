@@ -46,4 +46,22 @@ class CommentController extends AbstractController
         }
     }
 
+    /**
+     * @Route("/validateComment", name="validateComment")
+     */
+    public function validateComment(CommentRepository $commentRepository, UserRepository $userRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $comment = $commentRepository->findOneBy(['id' => $data['commentId']]);
+        $currentUser = $userRepository->findOneBy(['id' => $data['currentUserId']]);
+        if ($currentUser->getRole() === "ADMIN") {
+            $comment->setIsValidated(true);
+
+            $commentRepository->add($comment, true);
+
+            return $this->json(true);
+        } else {
+            return $this->json(false);
+        }
+    }
 }
