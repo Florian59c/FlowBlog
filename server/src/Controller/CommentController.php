@@ -64,4 +64,22 @@ class CommentController extends AbstractController
             return $this->json(false);
         }
     }
+    
+    /**
+     * @Route("/deleteComment", name="deleteComment")
+     */
+    public function deleteComment(CommentRepository $commentRepository, UserRepository $userRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $comment = $commentRepository->findOneBy(['id' => $data['commentId']]);
+        $currentUser = $userRepository->findOneBy(['id' => $data['currentUserId']]);
+        if ($currentUser->getRole() === "ADMIN") {
+
+            $commentRepository->remove($comment, true);
+            
+            return $this->json(true);
+        } else {
+            return $this->json(false);
+        }
+    }
 }
