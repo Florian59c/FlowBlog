@@ -11,5 +11,13 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CommentController extends AbstractController
 {
-    
+    /**
+     * @Route("/getAllComments", name="getAllComments")
+     */
+    public function getAllComments(CommentRepository $commentRepository): Response
+    {
+        $comments = $commentRepository->findAll();
+        
+        return $this->json($comments);
+    }
 }
