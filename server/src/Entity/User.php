@@ -196,19 +196,19 @@ class User implements UserInterface
     {
 
     }
-    
+
     public function eraseCredentials()
     {
         
     }
-    
+
     public function getSalt()
     {
         
     }
-    
+
     public function getRoles()
     {
-        return ['ROLE_USER'];
+        return [];
     }
 }

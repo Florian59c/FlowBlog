@@ -81,17 +81,22 @@ class UserController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function login(UserRepository $userRepository, Request $request): Response
+    public function login(UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
-        $isFind = $userRepository->findOneBy([
-            'mail' => $data['mail'],
-            'password' => $data['password'],
+        
+        $findedUserByMail = $userRepository->findOneBy([
+            'mail' => $data['mail']
         ]);
-        if ($isFind === null) {
-            return $this->json(false);
+        if ($findedUserByMail === null) {
+            return $this->json("errorMail");
         } else {
-            return $this->json(true);
+            $isSameHash = $passwordHasher->isPasswordValid($findedUserByMail, $data['password']);
+            if ($isSameHash === true) {
+                return $this->json("correct");
+            } else {
+                return $this->json("errorPassword");
+            }
         }
     }
 }
