@@ -20,7 +20,7 @@ function Login() {
                             mail,
                             password
                         });
-                        if (login.data === true) {
+                        if (login.data === "correct") {
                             try {
                                 const id = await axios.post('http://localhost:8000/findIdByMail', {
                                     mail
@@ -30,8 +30,10 @@ function Login() {
                             } catch (error) {
                                 console.error(error);
                             }
+                        } else if (login.data === "errorMail") {
+                            setError("L'adresse mail est incorect !");
                         } else {
-                            setError("L'adresse mail ou le mot de passe est incorect !");
+                            setError("Le mot de passe est incorect !");
                         }
 
                     } catch (err) {

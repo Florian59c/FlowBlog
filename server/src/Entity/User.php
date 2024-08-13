@@ -3,14 +3,18 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  * @UniqueEntity("pseudo", "mail")
  */
-class User
+class User implements UserInterface
 {
     /**
      * @ORM\Id
@@ -31,6 +35,7 @@ class User
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Ignore()
      */
     private $password;
 
@@ -43,6 +48,24 @@ class User
      * @ORM\Column(type="boolean", options={"default" : false})
      */
     private $is_verified;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Post::class, mappedBy="author")
+     * @Ignore()
+     */
+    private $posts;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Comment::class, mappedBy="user_id")
+     * @Ignore()
+     */
+    private $comments;
+
+    public function __construct()
+    {
+        $this->posts = new ArrayCollection();
+        $this->comments = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -107,5 +130,85 @@ class User
         $this->is_verified = $is_verified;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, Post>
+     */
+    public function getPosts(): Collection
+    {
+        return $this->posts;
+    }
+
+    public function addPost(Post $post): self
+    {
+        if (!$this->posts->contains($post)) {
+            $this->posts[] = $post;
+            $post->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePost(Post $post): self
+    {
+        if ($this->posts->removeElement($post)) {
+            // set the owning side to null (unless already changed)
+            if ($post->getAuthor() === $this) {
+                $post->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Comment>
+     */
+    public function getComments(): Collection
+    {
+        return $this->comments;
+    }
+
+    public function addComment(Comment $comment): self
+    {
+        if (!$this->comments->contains($comment)) {
+            $this->comments[] = $comment;
+            $comment->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeComment(Comment $comment): self
+    {
+        if ($this->comments->removeElement($comment)) {
+            // set the owning side to null (unless already changed)
+            if ($comment->getUserId() === $this) {
+                $comment->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+    
+    public function getUsername()
+    {
+
+    }
+
+    public function eraseCredentials()
+    {
+        
+    }
+
+    public function getSalt()
+    {
+        
+    }
+
+    public function getRoles()
+    {
+        return [];
     }
 }

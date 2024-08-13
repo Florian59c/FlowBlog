@@ -8,6 +8,8 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -24,21 +26,34 @@ class UserController extends AbstractController
     /**
      * @Route("/createUser", name="createUser")
      */
-    public function createUser(UserRepository $userRepository, Request $request): Response
+    public function createUser(UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
-        $user = new User();
-        $user->setPseudo($data['pseudo']);
-        $user->setMail($data['mail']);
-        // $hashedPassword = hashPassword($data['password']);
-        // $user->setPassword($hashedPassword);
-        $user->setPassword($data['password']);
-        $user->setRole("USER");
-        $user->setIsVerified(false);
+        
+        $pseudo = $userRepository->findOneBy(['pseudo' => $data['pseudo']]);
+        $mail = $userRepository->findOneBy(['mail' => $data['mail']]);
+        if ($pseudo && $mail) {
+            return $this->json("error");
+        } else if ($pseudo) {
+            return $this->json("errorPseudo");
+        } else if ($mail) {
+            return $this->json("errorMail");
+        } else {
+            $user = new User();
+            $user->setPseudo($data['pseudo']);
+            $user->setMail($data['mail']);
+            $hashedPassword = $passwordHasher->hashPassword(
+                $user,
+                $data['password']
+            );
+            $user->setPassword($hashedPassword);
+            $user->setRole("USER");
+            $user->setIsVerified(false);
 
-        $userRepository->add($user, true);
+            $userRepository->add($user, true);
 
-        return $this->json(true);
+            return $this->json("created");
+        }
     }
 
     /**
@@ -66,17 +81,22 @@ class UserController extends AbstractController
     /**
      * @Route("/login", name="login")
      */
-    public function login(UserRepository $userRepository, Request $request): Response
+    public function login(UserRepository $userRepository, UserPasswordHasherInterface $passwordHasher, Request $request): Response
     {
         $data = json_decode($request->getContent(), true);
-        $isFind = $userRepository->findOneBy([
-            'mail' => $data['mail'],
-            'password' => $data['password'],
+        
+        $findedUserByMail = $userRepository->findOneBy([
+            'mail' => $data['mail']
         ]);
-        if ($isFind === null) {
-            return $this->json(false);
+        if ($findedUserByMail === null) {
+            return $this->json("errorMail");
         } else {
-            return $this->json(true);
+            $isSameHash = $passwordHasher->isPasswordValid($findedUserByMail, $data['password']);
+            if ($isSameHash === true) {
+                return $this->json("correct");
+            } else {
+                return $this->json("errorPassword");
+            }
         }
     }
 }

@@ -26,14 +26,23 @@ function Register() {
                                 mail,
                                 password
                             });
-                            if (isRegister.data === true) {
-                                const id = await axios.post('http://localhost:8000/findIdByMail', {
-                                    mail
-                                });
-                                localStorage.setItem('currentUserId', JSON.stringify(id.data));
-                                navigate("/");
-                            } else {
-                                setError("une erreur est survenu lors du login automatique");
+                            switch (isRegister.data) {
+                                case "error":
+                                    setError("Le pseudo et l'email existe déjà");
+                                    break;
+                                case "errorPseudo":
+                                    setError("Le pseudo existe déjà");
+                                    break;
+                                case "errorMail":
+                                    setError("L'email existe déjà");
+                                    break;
+                                default:
+                                    const id = await axios.post('http://localhost:8000/findIdByMail', {
+                                        mail
+                                    });
+                                    localStorage.setItem('currentUserId', JSON.stringify(id.data));
+                                    navigate("/");
+                                    break;
                             }
                         } catch (err) {
                             console.error(err);
