@@ -47,6 +47,29 @@ class PostController extends AbstractController
     }
 
     /**
+     * @Route("/updatePost", name="updatePost")
+     */
+    public function updatePost(PostRepository $postRepository, UserRepository $userRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $currentUser = $userRepository->findOneBy(['id' => $data['currentUserId']]);
+        $post = $postRepository->findOneBy(['id' => $data['postId']]);
+        $authorId = $post->getAuthor()->getId();
+        if ($currentUser->getRole() === "ADMIN" && $authorId === $currentUser->getId()) {
+            $post->setTitle($data['title']);
+            $post->setIntro($data['intro']);
+            $post->setContent($data['content']);
+            $post->setLastDate(new \DateTime('now'));
+
+            $postRepository->add($post, true);
+
+            return $this->json(true);
+        } else {
+            return $this->json(false);
+        }
+    }
+
+    /**
      * @Route("/deletePost", name="deletePost")
      */
     public function deletePost(PostRepository $postRepository, UserRepository $userRepository, Request $request): Response
@@ -56,7 +79,9 @@ class PostController extends AbstractController
         $post = $postRepository->findOneBy(['id' => $data['postId']]);
         $authorId = $post->getAuthor()->getId();
         if ($currentUser->getRole() === "ADMIN" && $authorId === $currentUser->getId()) {
+
             $postRepository->remove($post, true);
+            
             return $this->json(true);
         } else {
             return $this->json(false);
