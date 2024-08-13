@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Comment;
 use App\Repository\CommentRepository;
+use App\Repository\PostRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,4 +22,28 @@ class CommentController extends AbstractController
         
         return $this->json($comments);
     }
+    
+    /**
+     * @Route("/createComment", name="createComment")
+     */
+    public function createComment(CommentRepository $commentRepository, PostRepository $postRepository, UserRepository $userRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $currentUser = $userRepository->findOneBy(['id' => $data['currentUserId']]);
+        $currentPost = $postRepository->findOneBy(['id' => $data['currentPostId']]);
+        if ($currentUser->isIsVerified() === true) {
+            $comment = new Comment();
+            $comment->setContent($data['content']);
+            $comment->setIsValidated(false);
+            $comment->setUserId($currentUser);
+            $comment->setPostId($currentPost);
+
+            $commentRepository->add($comment, true);
+
+            return $this->json(true);
+        } else {
+            return $this->json(false);
+        }
+    }
+
 }
