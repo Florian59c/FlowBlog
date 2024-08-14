@@ -4,51 +4,75 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 function Home() {
-    const [users, setUsers] = useState([]);
-    const [currentUserId, setCurrentUserId] = useState("");
+    const [currentUserId, setCurrentUserId] = useState(0);
+    const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
         const currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
-        if (currentUserId) {
+        if (currentUserId !== 0) {
             setCurrentUserId(currentUserId);
         }
     }, []);
 
     useEffect(() => {
-        axios.get('http://localhost:8000/getAllUsers')
-            .then(response => {
-                setUsers(response.data);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
+        async function test() {
+            if (currentUserId !== 0) {
+                try {
+                    const currentUser = await axios.post('http://localhost:8000/findUser', {
+                        id: currentUserId
+                    });
+                    console.log(currentUser.data);
+
+                    setCurrentUser(currentUser.data);
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
+                setCurrentUser(0)
+            }
+        }
+        test();
+    }, [currentUserId]);
 
     return (
         <div>
-            <p>test connexion avec symfony et la bdd :</p>
-            {
-                users.map(user => (
-                    <div key={user.id}>
-                        <p>utilisateur {user.id} : {user.pseudo}</p>
-                    </div>
-                ))
-            }
-            {currentUserId ?
-                <button
-                    onClick={async () => {
-                        localStorage.removeItem('currentUserId');
-                        setCurrentUserId("")
-                    }}
-                >
-                    se déconnecter
-                </button>
+            <div>
+                {currentUserId !== 0 ?
+                    <button
+                        onClick={async () => {
+                            localStorage.removeItem('currentUserId');
+                            setCurrentUserId(0)
+                        }}
+                    >
+                        se déconnecter
+                    </button>
+                    :
+                    <Link to="/login" >
+                        <button>se connecter</button>
+                    </Link>
+                }
+            </div>
+            <Link to="/post-list">
+                <button>Accéder au posts</button>
+            </Link>
+            {currentUser?.role === "ADMIN" ?
+                <div>
+                    <Link to="/post-add">
+                        <button>Ajouter un post</button>
+                    </Link>
+                </div>
                 :
-                <Link to="/login" >
-                    <button>se connecter</button>
-                </Link>
+                ""
             }
-            {currentUserId}
+            {currentUser?.role === "ADMIN" ?
+                <div>
+                    <Link to="/admin-page">
+                        <p>Gestion Administrateur</p>
+                    </Link>
+                </div>
+                :
+                ""
+            }
         </div>
     );
 }
