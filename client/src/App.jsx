@@ -3,6 +3,11 @@ import { Routes, Route } from "react-router-dom";
 import Home from './screens/Home';
 import Login from './screens/Login';
 import Register from './screens/Register';
+import AdminPage from './screens/AdminPage';
+import PostAdd from './screens/PostAdd';
+import PostDetail from './screens/PostDetail';
+import PostList from './screens/PostList';
+import PostUpdate from './screens/PostUpdate';
 
 function App() {
   return (
@@ -11,6 +16,11 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/admin-page" element={<AdminPage />} />
+        <Route path="/post-add" element={<PostAdd />} />
+        <Route path="/post-detail" element={<PostDetail />} />
+        <Route path="/post-list" element={<PostList />} />
+        <Route path="/post-update" element={<PostUpdate />} />
       </Routes>
     </div>
   );
