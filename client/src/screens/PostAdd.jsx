@@ -7,7 +7,7 @@ function PostAdd() {
     const [title, setTitle] = useState("");
     const [intro, setIntro] = useState("");
     const [content, setContent] = useState("");
-    const [message, setMessage] = useState("");
+    const [confirm, setConfirm] = useState("");
     const [error, setError] = useState("");
 
     useEffect(() => {
@@ -22,10 +22,10 @@ function PostAdd() {
             <form
                 onSubmit={async (e) => {
                     e.preventDefault();
-                    setMessage("");
+                    setConfirm("");
                     setError("");
                     try {
-                        if (title !== "" && intro !== "" && content !== "") {
+                        if (title !== "" || intro !== "" || content !== "") {
                             const createdPost = await axios.post('http://localhost:8000/createPost', {
                                 currentUserId,
                                 title,
@@ -33,7 +33,7 @@ function PostAdd() {
                                 content
                             });
                             if (createdPost) {
-                                setMessage("Le post à bien été créé");
+                                setConfirm("Le post à bien été créé");
                             } else {
                                 setError("Vous n'avez pas la permission pour créer un post");
                             }
@@ -83,7 +83,7 @@ function PostAdd() {
                     </div>
                 </div>
             </form>
-            {message}
+            {confirm}
             {error}
         </div>
     );

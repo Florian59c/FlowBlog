@@ -23,6 +23,17 @@ class PostController extends AbstractController
     }
 
     /**
+     * @Route("/findPost", name="findPost")
+     */
+    public function findPost(PostRepository $postRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $curentpost = $postRepository->findOneBy(['id' => $data['id']]);
+
+        return $this->json($curentpost);
+    }
+
+    /**
      * @Route("/createPost", name="createPost")
      */
     public function createPost(PostRepository $postRepository, UserRepository $userRepository, Request $request): Response

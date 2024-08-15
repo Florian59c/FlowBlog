@@ -75,7 +75,8 @@ function PostDetail() {
                     <p>date : {findPostWithUrl.last_date}</p>
                     <p>auteur du post : {findPostWithUrl.author.pseudo}</p>
                     {currentUser?.role === "ADMIN" && currentUser?.id === findPostWithUrl.author.id ?
-                        <Link to="/post-update">
+                        <Link to={`/post-update`}
+                            state={{ postId: findPostWithUrl.id }}>
                             <button>modifier le post</button>
                         </Link>
                         :
@@ -144,7 +145,7 @@ function PostDetail() {
                     </Link>
                 </div>
             }
-        </div>
+        </div >
     );
 }
 
