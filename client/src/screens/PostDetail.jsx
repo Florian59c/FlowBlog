@@ -17,13 +17,6 @@ function PostDetail() {
         setPosts(posts.data);
     };
 
-    async function findcomments() {
-        const comments = await axios.post('http://localhost:8000/findValidatedCommentsByPost', {
-            postId: findPostWithUrl.id
-        });
-        setComments(comments.data);
-    };
-
     useEffect(() => {
         const currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
         if (currentUserId !== 0) {
@@ -33,6 +26,7 @@ function PostDetail() {
         findPosts();
         findcomments();
     }, []);
+
 
     useEffect(() => {
         async function findCurrentUser() {
@@ -57,6 +51,19 @@ function PostDetail() {
     const findPostWithUrl = posts.find((post) => {
         return post.id === parseInt(url);
     });
+
+    async function findcomments() {
+        if (findPostWithUrl) {
+            const comments = await axios.post('http://localhost:8000/findValidatedCommentsByPost', {
+                postId: findPostWithUrl.id
+            });
+            setComments(comments.data);
+        }
+    };
+
+    useEffect(() => {
+        findcomments();
+    }, [findPostWithUrl]);
 
     return (
         <div>
