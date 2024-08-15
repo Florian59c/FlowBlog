@@ -82,4 +82,32 @@ class CommentController extends AbstractController
             return $this->json(false);
         }
     }
+
+    /**
+     * @Route("/findValidatedComments", name="findValidatedComments")
+     */
+    public function findValidatedComments(CommentRepository $commentRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $test = $commentRepository->findCommentNotValidated();
+
+        return $this->json($test);
+    }
+
+    /**
+     * @Route("/findValidatedCommentsByPost", name="findValidatedCommentsByPost")
+     */
+    public function findValidatedCommentsByPost(CommentRepository $commentRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $comments = $commentRepository->findCommentWithPostAndValidated();
+        $allComments = [];
+        foreach ($comments as $key => $comment) {
+            if ($comment->getPostId()->getId() === $data['postId']) {
+                array_push($allComments, $comment);
+            }
+        }
+
+        return $this->json($allComments);
+    }
 }

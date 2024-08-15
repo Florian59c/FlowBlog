@@ -74,6 +74,9 @@ function Login() {
             <Link to="/register" >
                 <p>Se créer un compte</p>
             </Link>
+            <Link to="/" >
+                <p>retouner à la page d'acceuil</p>
+            </Link>
         </div >
     );
 }
