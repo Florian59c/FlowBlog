@@ -28,7 +28,7 @@ function Home() {
                     console.error(error);
                 }
             } else {
-                setCurrentUser(0)
+                setCurrentUser(0);
             }
         }
         findCurrentUser();
