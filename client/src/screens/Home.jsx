@@ -15,7 +15,7 @@ function Home() {
     }, []);
 
     useEffect(() => {
-        async function test() {
+        async function findCurrentUser() {
             if (currentUserId !== 0) {
                 try {
                     const currentUser = await axios.post('http://localhost:8000/findUser', {
@@ -31,7 +31,7 @@ function Home() {
                 setCurrentUser(0)
             }
         }
-        test();
+        findCurrentUser();
     }, [currentUserId]);
 
     return (

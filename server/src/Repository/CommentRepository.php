@@ -39,6 +39,11 @@ class CommentRepository extends ServiceEntityRepository
         }
     }
 
+    public function findCommentWithPostAndValidated(): array
+    {
+        return $this->findBy(['is_validated' => true]);
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

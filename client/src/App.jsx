@@ -18,7 +18,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/admin-page" element={<AdminPage />} />
         <Route path="/post-add" element={<PostAdd />} />
-        <Route path="/post-detail" element={<PostDetail />} />
+        <Route path="/post-detail/:url" element={<PostDetail />} />
         <Route path="/post-list" element={<PostList />} />
         <Route path="/post-update" element={<PostUpdate />} />
       </Routes>
