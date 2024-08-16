@@ -54,33 +54,33 @@ function Home() {
                 </div>
                 <div class="container overflow-hidden bsb-author-1">
                     <div class="d-grid my-3" className='button-container'>
-                        {currentUserId !== 0 ?
+                        {currentUserId === 0 ?
                             <div className='button'>
-                                <button class="btn btn-primary btn-lg w-100" type="submit"
-                                    onClick={async () => {
+                                <Link to="/login">
+                                    <button class="btn btn-primary btn-lg w-100">se connecter</button>
+                                </Link>
+                            </div>
+                            :
+                            <div className='button'>
+                                <button class="btn btn-primary btn-lg w-100"
+                                    onClick={() => {
                                         localStorage.removeItem('currentUserId');
-                                        setCurrentUserId(0)
+                                        setCurrentUserId(0);
                                     }}
                                 >
                                     se déconnecter
                                 </button>
                             </div>
-                            :
-                            <div className='button'>
-                                <Link to="/login">
-                                    <button class="btn btn-primary btn-lg w-100" type="submit">se connecter</button>
-                                </Link>
-                            </div>
                         }
                         <div className='button'>
                             <Link to="/post-list" className='button'>
-                                <button class="btn btn-primary btn-lg w-100" type="submit">Accéder au posts</button>
+                                <button class="btn btn-primary btn-lg w-100">Accéder au posts</button>
                             </Link>
                         </div>
                         {currentUser?.role === "ADMIN" &&
                             <div className='button'>
                                 <Link to="/post-add" className='button'>
-                                    <button class="btn btn-primary btn-lg w-100" type="submit">Ajouter un post</button>
+                                    <button class="btn btn-primary btn-lg w-100">Ajouter un post</button>
                                 </Link>
                             </div>
                         }
