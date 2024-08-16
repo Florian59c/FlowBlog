@@ -1,0 +1,16 @@
+.button {
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+@media screen and (min-width: 1000px) {
+    .button-container {
+        margin: 40px 120px;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .button {
+        flex-basis: 30%;
+    }
+}
