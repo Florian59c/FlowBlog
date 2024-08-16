@@ -82,6 +82,9 @@ function Login() {
                                                 <button class="btn btn-primary btn-lg" type="submit">Se connecter</button>
                                             </div>
                                         </div>
+                                        <div className='error-message'>
+                                            <p>{error}</p>
+                                        </div>
                                         <div class="col-12">
                                             <p class="m-0 text-secondary text-center">Vous n'avez pas de compte?
                                                 <Link to="/register">
@@ -89,11 +92,6 @@ function Login() {
                                                 </Link>
                                             </p>
                                         </div>
-
-                                        <div>
-                                            {error}
-                                        </div>
-
                                     </div>
                                 </form>
                             </div>
