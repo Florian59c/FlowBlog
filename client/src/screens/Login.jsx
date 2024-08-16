@@ -52,7 +52,7 @@ function Login() {
                                         <div class="col-12">
                                             <div class="form-floating mb-3">
                                                 <input
-                                                    type="text"
+                                                    type="email"
                                                     class="form-control"
                                                     id="mail"
                                                     name="mail"
