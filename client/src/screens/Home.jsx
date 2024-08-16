@@ -42,10 +42,10 @@ function Home() {
                 <div class="container overflow-hidden bsb-author-1">
                     <div class="row justify-content-center gy-4 gy-md-0">
                         <div class="col-12 col-md-3 col-xl-2 d-flex align-items-center justify-content-center">
-                            <img class="img-fluid rounded-circle author-avatar" loading="lazy" src={photo} alt="Elio Evander" />
+                            <img class="img-fluid rounded-circle" id='test' loading="lazy" src={photo} alt="Florian Cagnon" />
                         </div>
                         <div class="col-12 col-md-8 col-lg-6 col-xl-5 d-flex align-items-center justify-content-center">
-                            <div class="text-center text-md-start author-content">
+                            <div class="text-center text-md-start">
                                 <h2 class="fs-2 mb-3">Florian Cagnon</h2>
                                 <p class="mb-3">Diplômé dans le domaine du développement web et passionné par les nouvelles technologies, j'ai toujours été animé par la création d'applications innovantes et l'atteinte d'objectifs ambitieux.</p>
                             </div>
