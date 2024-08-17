@@ -1,0 +1,10 @@
+@media screen and (min-width: 800px) {
+    .button-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .button-container button {
+        flex-basis: 48%;
+    }
+}

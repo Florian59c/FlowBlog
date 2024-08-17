@@ -1,0 +1,22 @@
+#photo {
+    max-width: 200px;
+}
+
+.button-container div {
+    margin-bottom: 10px;
+}
+
+@media screen and (min-width: 1000px) {
+    .home {
+        margin: 0 200px;
+    }
+
+    .button-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .button-container div {
+        flex-basis: 30%;
+    }
+}

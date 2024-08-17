@@ -1,0 +1,17 @@
+.confirm-message {
+    margin: 0;
+    text-align: center;
+    color: rgb(13, 110, 253);
+    font-weight: bold;
+}
+
+.error-message {
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+    color: red;
+}
+
+.unexist {
+    text-align: center;
+}
