@@ -18,9 +18,9 @@ function PostUpdate() {
         const post = await axios.post('http://localhost:8000/findPost', {
             id: postId
         });
-        setTitle(post.data.title);
-        setIntro(post.data.intro);
-        setContent(post.data.content);
+        setTitle(post.data?.title);
+        setIntro(post.data?.intro);
+        setContent(post.data?.content);
     };
 
     useEffect(() => {

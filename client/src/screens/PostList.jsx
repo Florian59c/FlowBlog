@@ -25,8 +25,8 @@ function PostList() {
         const date = day + "/" + month + "/" + year;
         const time = hour + "h" + minute;
         return (
-            <Link to={`/post-detail/${post.id}`} class="col-12 col-lg-6">
-                <div key={post.id} class="card">
+            <Link key={post.id} to={`/post-detail/${post.id}`} class="col-12 col-lg-6">
+                <div class="card">
                     <div className='box'>
                         <div class="card-body">
                             <p class="text-secondary mb-3 text-center fw-bolder text-xl-left text-uppercase fs-5">{post.title}</p>
