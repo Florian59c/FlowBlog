@@ -54,7 +54,7 @@ function Home() {
                 </div>
                 <div class="container overflow-hidden bsb-author-1">
                     <div class="d-grid my-3" className='button-container'>
-                        {currentUserId === 0 ?
+                        {currentUserId === 0 || currentUserId === undefined || currentUserId === null ?
                             <div>
                                 <Link to="/login">
                                     <button class="btn btn-primary btn-lg w-100">se connecter</button>
