@@ -1,16 +1,22 @@
-.button {
-    box-sizing: border-box;
+#photo {
+    max-width: 200px;
+}
+
+.button-container div {
     margin-bottom: 10px;
 }
 
 @media screen and (min-width: 1000px) {
-    .button-container {
-        margin: 40px 120px;
-        display: flex;
-        justify-content: space-between;
+    .home {
+        margin: 0 200px;
     }
 
-    .button {
+    .button-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .button-container div {
         flex-basis: 30%;
     }
 }

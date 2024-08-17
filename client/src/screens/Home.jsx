@@ -37,15 +37,15 @@ function Home() {
     }, [currentUserId]);
 
     return (
-        <div>
+        <div className='home'>
             <section class="py-5">
                 <div class="container overflow-hidden bsb-author-1">
                     <div class="row justify-content-center gy-4 gy-md-0">
-                        <div class="col-12 col-md-3 col-xl-2 d-flex align-items-center justify-content-center">
-                            <img class="img-fluid rounded-circle author-avatar" loading="lazy" src={photo} alt="Elio Evander" />
+                        <div class="col-2 d-flex align-items-center justify-content-center">
+                            <img class="img-fluid rounded-circle" id='photo' loading="lazy" src={photo} alt="Florian Cagnon" />
                         </div>
-                        <div class="col-12 col-md-8 col-lg-6 col-xl-5 d-flex align-items-center justify-content-center">
-                            <div class="text-center text-md-start author-content">
+                        <div class="col-10 d-flex align-items-center justify-content-center">
+                            <div class="text-center text-md-start">
                                 <h2 class="fs-2 mb-3">Florian Cagnon</h2>
                                 <p class="mb-3">Diplômé dans le domaine du développement web et passionné par les nouvelles technologies, j'ai toujours été animé par la création d'applications innovantes et l'atteinte d'objectifs ambitieux.</p>
                             </div>
@@ -55,13 +55,13 @@ function Home() {
                 <div class="container overflow-hidden bsb-author-1">
                     <div class="d-grid my-3" className='button-container'>
                         {currentUserId === 0 ?
-                            <div className='button'>
+                            <div>
                                 <Link to="/login">
                                     <button class="btn btn-primary btn-lg w-100">se connecter</button>
                                 </Link>
                             </div>
                             :
-                            <div className='button'>
+                            <div>
                                 <button class="btn btn-primary btn-lg w-100"
                                     onClick={() => {
                                         localStorage.removeItem('currentUserId');
@@ -72,14 +72,14 @@ function Home() {
                                 </button>
                             </div>
                         }
-                        <div className='button'>
-                            <Link to="/post-list" className='button'>
+                        <div >
+                            <Link to="/post-list">
                                 <button class="btn btn-primary btn-lg w-100">Accéder au posts</button>
                             </Link>
                         </div>
                         {currentUser?.role === "ADMIN" &&
-                            <div className='button'>
-                                <Link to="/post-add" className='button'>
+                            <div>
+                                <Link to="/post-add">
                                     <button class="btn btn-primary btn-lg w-100">Ajouter un post</button>
                                 </Link>
                             </div>
