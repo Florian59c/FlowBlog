@@ -1,0 +1,82 @@
+.post-detail {
+    margin: 0 10px;
+}
+
+.title {
+    text-align: center;
+    font-weight: bold;
+}
+
+.intro {
+    text-align: center;
+    font-weight: bold;
+}
+
+.author div {
+    text-align: center;
+}
+
+.author-info h4 {
+    color: rgb(13, 110, 253);
+}
+
+#photo {
+    width: 80px;
+}
+
+.content {
+    margin: 10px 0;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+.comment-title {
+    font-weight: bold;
+    margin: 20px 0 5px 10px;
+}
+
+.unexist {
+    text-align: center;
+}
+
+@media screen and (min-width: 500px) {
+    .post-detail {
+        margin: 0 60px;
+    }
+
+    .title {
+        font-size: 50px;
+    }
+
+    .intro {
+        font-size: 35px;
+        margin: 10px 50px;
+    }
+
+    .author {
+        display: flex;
+        justify-content: left;
+    }
+
+    .author-div {
+        align-items: center;
+        display: flex;
+    }
+
+    .author-info {
+        margin-left: 10px;
+        align-items: center;
+    }
+
+    .author-info h4 {
+        text-align: left;
+    }
+
+    .content {
+        font-size: 20px;
+    }
+
+}

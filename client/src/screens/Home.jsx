@@ -42,7 +42,7 @@ function Home() {
                 <div class="container overflow-hidden bsb-author-1">
                     <div class="row justify-content-center gy-4 gy-md-0">
                         <div class="col-12 col-md-3 col-xl-2 d-flex align-items-center justify-content-center">
-                            <img class="img-fluid rounded-circle" id='test' loading="lazy" src={photo} alt="Florian Cagnon" />
+                            <img class="img-fluid rounded-circle" id='photo' loading="lazy" src={photo} alt="Florian Cagnon" />
                         </div>
                         <div class="col-12 col-md-8 col-lg-6 col-xl-5 d-flex align-items-center justify-content-center">
                             <div class="text-center text-md-start">

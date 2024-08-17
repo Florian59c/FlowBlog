@@ -2,6 +2,7 @@ import { Link, useParams } from 'react-router-dom';
 import './css/PostDetail.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import photo from '../assets/img/photo.png';
 
 function PostDetail() {
     const [posts, setPosts] = useState([]);
@@ -11,6 +12,8 @@ function PostDetail() {
     const [commentField, setCommentField] = useState("");
     const [error, setError] = useState("");
     const [confirm, setConfirm] = useState("");
+    const [date, setDate] = useState("");
+    const [time, setTime] = useState("");
 
     async function findPosts() {
         const posts = await axios.get('http://localhost:8000/getPostsWithRecentDate');
@@ -63,85 +66,126 @@ function PostDetail() {
 
     useEffect(() => {
         findcomments();
+
+        if (findPostWithUrl) {
+            const splitDate = findPostWithUrl.last_date.split('T')[0].split('-');
+            const day = splitDate[2];
+            const month = splitDate[1];
+            const year = splitDate[0];
+            const splitTime = findPostWithUrl.last_date.split('T')[1].split('+')[0].split(':');
+            const hour = splitTime[0];
+            const minute = splitTime[1];
+
+            setDate(day + "/" + month + "/" + year);
+            setTime(hour + "h" + minute);
+        }
     }, [findPostWithUrl]);
 
     return (
         <div>
             {findPostWithUrl !== undefined ?
-                <div>
-                    <p>titre : {findPostWithUrl.title}</p>
-                    <p>chapô : {findPostWithUrl.intro}</p>
-                    <p>contenu : {findPostWithUrl.content}</p>
-                    <p>date : {findPostWithUrl.last_date}</p>
-                    <p>auteur du post : {findPostWithUrl.author.pseudo}</p>
-                    {currentUser?.role === "ADMIN" && currentUser?.id === findPostWithUrl.author.id ?
-                        <Link to={`/post-update`}
-                            state={{ postId: findPostWithUrl.id }}>
-                            <button>modifier le post</button>
-                        </Link>
-                        :
-                        ""
-                    }
-                    <form
-                        onSubmit={async (e) => {
-                            if (currentUserId !== 0) {
-                                e.preventDefault();
-                                setError("");
-                                setConfirm("");
-                                if (commentField === "") {
-                                    setError("vous devez mettre écrire un commentaire pour pouvoir le soumettre")
-                                } else {
-                                    try {
-                                        await axios.post('http://localhost:8000/createComment', {
-                                            currentUserId,
-                                            currentPostId: findPostWithUrl.id,
-                                            content: commentField
-                                        });
-                                        setConfirm("le commentaire a bien été envoyé")
-                                    } catch (err) {
-                                        console.error(err);
-                                        setError("un problème est survenulors de la soumission du commentaire");
-                                    }
-                                }
-                            } else {
-                                setError("Vous devez être connecté pour soumettre un commentaire !")
-                            }
-                        }}
-                    >
+                <div className='post-detail'>
+                    <h1 className='title'>{findPostWithUrl.title}</h1>
+                    <h2 className='intro'>{findPostWithUrl.intro}</h2>
+                    <div className='author'>
                         <div>
-                            <label htmlFor="commentField">
-                                <p>commentaire : </p>
-                                <input
-                                    type="commentField"
-                                    id="commentField"
-                                    name="commentField"
-                                    value={commentField}
-                                    onChange={(e) => setCommentField(e.target.value)}
-                                />
-                            </label>
-                            <div>
-                                <button>Soumettre un commentaire</button>
-                            </div>
-                            {error}
-                            {confirm}
+                            <img class=" rounded-circle" id='photo' loading="lazy" src={photo} alt="Florian Cagnon" />
                         </div>
-                    </form>
+                        <div className='author-div'>
+                            <div className='author-info'>
+                                <h4>{findPostWithUrl.author.pseudo}</h4>
+                                <p>Dernière mise à jour : {date} à {time}</p>
+                            </div>
+                        </div>
+                    </div>
+                    <p className='content'>{findPostWithUrl.content}</p>
                     <div>
-                        {comments.map(comment => {
-                            return (
-                                <div>
-                                    <p>auteur : {comment.userId.pseudo}</p>
-                                    <p>commentaire : {comment.content}</p>
+                        {currentUser?.role === "ADMIN" && currentUser?.id === findPostWithUrl.author.id ?
+                            <div className='button'>
+                                <Link to={`/post-update`}
+                                    state={{ postId: findPostWithUrl.id }}>
+                                    <button class="btn btn-primary btn-lg w-100">modifier le post</button>
+                                </Link>
+                            </div>
+                            :
+                            ""
+                        }
+                    </div>
+                    <div>
+                        <p className='comment-title'>Poster un commentaire.</p>
+                        <form
+                            onSubmit={async (e) => {
+                                if (currentUserId !== 0) {
+                                    e.preventDefault();
+                                    setError("");
+                                    setConfirm("");
+                                    if (commentField === "") {
+                                        setError("vous devez mettre écrire un commentaire pour pouvoir le soumettre")
+                                    } else {
+                                        try {
+                                            await axios.post('http://localhost:8000/createComment', {
+                                                currentUserId,
+                                                currentPostId: findPostWithUrl.id,
+                                                content: commentField
+                                            });
+                                            setConfirm("le commentaire a bien été envoyé")
+                                        } catch (err) {
+                                            console.error(err);
+                                            setError("un problème est survenulors de la soumission du commentaire");
+                                        }
+                                    }
+                                } else {
+                                    setError("Vous devez être connecté pour soumettre un commentaire !")
+                                }
+                            }}
+                        >
+                            <div>
+                                <div class="col-12">
+                                    <div class="form-floating mb-3">
+                                        <textarea
+                                            type="text"
+                                            class="form-control"
+                                            name="content"
+                                            id="content"
+                                            placeholder="Contenu"
+                                            value={commentField}
+                                            onChange={(e) => setCommentField(e.target.value)}
+                                        />
+                                        <label for="email" class="form-label">Poster un commentaire</label>
+                                    </div>
                                 </div>
-                            )
-                        })}
+                                <div class="my-3 text-end">
+                                    <button class="btn btn-primary btn-lg" type="submit">Soumettre un commentaire</button>
+                                </div>
+                                <div className='confirm-message'>
+                                    {confirm}
+                                </div>
+                                <div className='error-message'>
+                                    {error}
+                                </div>
+                            </div>
+                        </form>
+                        <div class="container overflow-hidden py-3">
+                            <div class="row gy-3 gy-lg-4">
+                                {comments.map(comment => {
+                                    return (
+                                        <div key={comment.id} class="card">
+                                            <div class="card-body">
+                                                <p class="text-secondary fw-light fst-italic mb-3 fs-6">Commentaire de @{comment.userId.pseudo}</p>
+                                                <p class="mb-3 mx-3 text-left text-xl-left fs-4">{comment.content}</p>
+                                            </div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 :
-                <div>
-                    <p>Le post que vous cherchez n'existe pas</p>
+                <div className='unexist'>
+                    <h1 className='mt-3'>Le post que vous cherchez n'existe pas</h1>
                     <Link to="/post-list">
-                        <button>Retour à la liste des posts</button>
+                        <button class="btn btn-primary btn-lg mt-3">Retour à la liste des posts</button>
                     </Link>
                 </div>
             }
