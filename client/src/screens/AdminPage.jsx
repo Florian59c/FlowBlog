@@ -10,7 +10,7 @@ function AdminPage() {
     const [confirm, setConfirm] = useState("");
 
     async function findNotValidatedComments() {
-        const comments = await axios.get('http://localhost:8000/findValidatedComments');
+        const comments = await axios.get('/findValidatedComments');
         setComments(comments.data);
     };
 
@@ -45,7 +45,7 @@ function AdminPage() {
                                             async (e) => {
                                                 try {
                                                     e.preventDefault();
-                                                    await axios.post('http://localhost:8000/validateComment', {
+                                                    await axios.post('/validateComment', {
                                                         currentUserId,
                                                         commentId: comment.id
                                                     });
@@ -63,7 +63,7 @@ function AdminPage() {
                                             async (e) => {
                                                 try {
                                                     e.preventDefault();
-                                                    await axios.post('http://localhost:8000/deleteComment', {
+                                                    await axios.post('/deleteComment', {
                                                         currentUserId,
                                                         commentId: comment.id
                                                     });

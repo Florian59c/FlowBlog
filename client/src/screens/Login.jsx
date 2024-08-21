@@ -22,13 +22,13 @@ function Login() {
                                         e.preventDefault();
                                         setError("");
                                         try {
-                                            const login = await axios.post('http://localhost:8000/login', {
+                                            const login = await axios.post('/login', {
                                                 mail,
                                                 password
                                             });
                                             if (login.data === "correct") {
                                                 try {
-                                                    const id = await axios.post('http://localhost:8000/findIdByMail', {
+                                                    const id = await axios.post('/findIdByMail', {
                                                         mail
                                                     });
                                                     localStorage.setItem('currentUserId', JSON.stringify(id.data));

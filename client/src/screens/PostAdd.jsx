@@ -32,7 +32,7 @@ function PostAdd() {
                                         setError("");
                                         try {
                                             if (title !== "" || intro !== "" || content !== "") {
-                                                const createdPost = await axios.post('http://localhost:8000/createPost', {
+                                                const createdPost = await axios.post('/createPost', {
                                                     currentUserId,
                                                     title,
                                                     intro,

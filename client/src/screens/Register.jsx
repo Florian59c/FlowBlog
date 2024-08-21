@@ -30,7 +30,7 @@ function Register() {
                                                 if (pseudo === "" || mail === "" || password === "") {
                                                     setError("Vous devez remplir tout les champs du formulaire !")
                                                 } else {
-                                                    const isRegister = await axios.post('http://localhost:8000/createUser', {
+                                                    const isRegister = await axios.post('/createUser', {
                                                         pseudo,
                                                         mail,
                                                         password
@@ -46,7 +46,7 @@ function Register() {
                                                             setError("L'email existe déjà");
                                                             break;
                                                         default:
-                                                            const id = await axios.post('http://localhost:8000/findIdByMail', {
+                                                            const id = await axios.post('/findIdByMail', {
                                                                 mail
                                                             });
                                                             localStorage.setItem('currentUserId', JSON.stringify(id.data));

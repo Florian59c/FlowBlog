@@ -20,7 +20,7 @@ function Home() {
         async function findCurrentUser() {
             if (currentUserId !== 0) {
                 try {
-                    const currentUser = await axios.post('http://localhost:8000/findUser', {
+                    const currentUser = await axios.post('/findUser', {
                         id: currentUserId
                     });
                     console.log(currentUser.data);
