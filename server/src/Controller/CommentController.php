@@ -95,7 +95,7 @@ class CommentController extends AbstractController
     }
 
     /**
-     * @Route("/findValidatedCommentsByPost", name="findValidatedCommentsByPost")
+     * @Route("/api/findValidatedCommentsByPost", name="findValidatedCommentsByPost")
      */
     public function findValidatedCommentsByPost(CommentRepository $commentRepository, Request $request): Response
     {

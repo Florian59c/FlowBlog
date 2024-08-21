@@ -57,7 +57,7 @@ function PostDetail() {
 
     async function findcomments() {
         if (findPostWithUrl) {
-            const comments = await axios.post('http://localhost:8000/findValidatedCommentsByPost', {
+            const comments = await axios.post('http://localhost:8000/api/findValidatedCommentsByPost', {
                 postId: findPostWithUrl.id
             });
             setComments(comments.data);
@@ -79,7 +79,7 @@ function PostDetail() {
             setDate(day + "/" + month + "/" + year);
             setTime(hour + "h" + minute);
         }
-    }, []);
+    }, [findPostWithUrl]);
 
     return (
         <div>
