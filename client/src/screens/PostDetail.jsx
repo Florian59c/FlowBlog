@@ -16,7 +16,7 @@ function PostDetail() {
     const [time, setTime] = useState("");
 
     async function findPosts() {
-        const posts = await axios.get('http://localhost:8000/getPostsWithRecentDate');
+        const posts = await axios.get('/getPostsWithRecentDate');
         setPosts(posts.data);
     };
 
@@ -35,7 +35,7 @@ function PostDetail() {
         async function findCurrentUser() {
             if (currentUserId !== 0) {
                 try {
-                    const currentUser = await axios.post('http://localhost:8000/findUser', {
+                    const currentUser = await axios.post('/findUser', {
                         id: currentUserId
                     });
                     setCurrentUser(currentUser.data);
@@ -57,7 +57,7 @@ function PostDetail() {
 
     async function findcomments() {
         if (findPostWithUrl) {
-            const comments = await axios.post('http://localhost:8000/api/findValidatedCommentsByPost', {
+            const comments = await axios.post('/api/findValidatedCommentsByPost', {
                 postId: findPostWithUrl.id
             });
             setComments(comments.data);
@@ -123,7 +123,7 @@ function PostDetail() {
                                         setError("vous devez mettre écrire un commentaire pour pouvoir le soumettre")
                                     } else {
                                         try {
-                                            await axios.post('http://localhost:8000/createComment', {
+                                            await axios.post('/createComment', {
                                                 currentUserId,
                                                 currentPostId: findPostWithUrl.id,
                                                 content: commentField

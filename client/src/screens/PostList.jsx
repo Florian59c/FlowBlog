@@ -8,7 +8,7 @@ function PostList() {
 
     useEffect(() => {
         async function findPosts() {
-            const posts = await axios.get('http://localhost:8000/getPostsWithRecentDate');
+            const posts = await axios.get('/getPostsWithRecentDate');
             setPosts(posts.data);
         }
         findPosts();
