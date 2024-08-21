@@ -15,7 +15,7 @@ function PostUpdate() {
     const [confirmDelete, setConfirmDelete] = useState("");
 
     async function findPost() {
-        const post = await axios.post('http://localhost:8000/findPost', {
+        const post = await axios.post('/findPost', {
             id: postId
         });
         setTitle(post.data?.title);
@@ -40,7 +40,7 @@ function PostUpdate() {
             e.preventDefault();
             setConfirmDelete("");
             setErrorDelete("");
-            const isDeleted = await axios.post('http://localhost:8000/deletePost', {
+            const isDeleted = await axios.post('/deletePost', {
                 currentUserId,
                 postId
             });
@@ -73,7 +73,7 @@ function PostUpdate() {
                                                 setError("");
                                                 try {
                                                     if (title !== "" || intro !== "" || content !== "") {
-                                                        const updatedPost = await axios.post('http://localhost:8000/updatePost', {
+                                                        const updatedPost = await axios.post('/updatePost', {
                                                             currentUserId,
                                                             postId,
                                                             title,
