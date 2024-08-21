@@ -79,7 +79,7 @@ function PostDetail() {
             setDate(day + "/" + month + "/" + year);
             setTime(hour + "h" + minute);
         }
-    }, [findPostWithUrl]);
+    }, []);
 
     return (
         <div>
