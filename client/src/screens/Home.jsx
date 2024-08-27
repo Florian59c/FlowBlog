@@ -8,6 +8,9 @@ import Footer from '../components/Footer';
 function Home() {
     const [currentUserId, setCurrentUserId] = useState(0);
     const [currentUser, setCurrentUser] = useState({});
+    const [text, setText] = useState("");
+    const [confirm, setConfirm] = useState("");
+    const [error, setError] = useState("");
 
     useEffect(() => {
         const currentUserId = JSON.parse(localStorage.getItem('currentUserId'));
@@ -86,12 +89,62 @@ function Home() {
                         }
                     </div>
                 </div>
-                <div>
-                    {/* le formulaire d'envoie de mail ici */}
+                <div class="mt-5">
+                    <form
+                        onSubmit={async (e) => {
+                            if (currentUserId !== 0) {
+                                e.preventDefault();
+                                setConfirm("")
+                                setError("");
+                                try {
+                                    const mailSend = await axios.post('/contactMail', {
+                                        currentUserId,
+                                        text
+                                    });
+                                    if (mailSend) {
+                                        setConfirm("le mail a bien été envoyé")
+                                    } else {
+                                        setError("Seul les utilisateurs connectés peuvent envoyer un mail");
+                                    }
+                                } catch (err) {
+                                    console.error(err);
+                                    setError("un problème est survenu");
+                                }
+                            } else {
+                                setError("Seul les utilisateurs connectés peuvent envoyer un mail");
+                            }
+                        }}
+                    >
+                        <div class="col-12">
+                            <div class="form-floating mb-3">
+                                <textarea
+                                    type="text"
+                                    class="form-control"
+                                    name="text"
+                                    id="content"
+                                    placeholder="text"
+                                    value={text}
+                                    onChange={(e) => setText(e.target.value)}
+                                />
+                                <label for="text" class="form-label">Contenu du mail</label>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="d-grid my-3">
+                                <button class="btn btn-primary btn-lg" type="submit">Envoyer le mail</button>
+                            </div>
+                        </div>
+                        <div className='confirm-message'>
+                            {confirm}
+                        </div>
+                        <div className='error-message'>
+                            {error}
+                        </div>
+                    </form >
                 </div>
-            </section>
+            </section >
             <Footer currentUserRole={currentUser?.role} />
-        </div>
+        </div >
     );
 }
 
