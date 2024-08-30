@@ -49,6 +49,9 @@ function Register() {
                                                             const id = await axios.post('/findIdByMail', {
                                                                 mail
                                                             });
+                                                            await axios.post('/confirmMail', {
+                                                                currentUserId: id.data
+                                                            });
                                                             localStorage.setItem('currentUserId', JSON.stringify(id.data));
                                                             navigate("/");
                                                             break;
