@@ -9,6 +9,7 @@ import PostDetail from './screens/PostDetail';
 import PostList from './screens/PostList';
 import PostUpdate from './screens/PostUpdate';
 import NotFound from './screens/NotFound';
+import ConfirmEmail from './screens/ConfirmEmail';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route path="/post-detail/:url" element={<PostDetail />} />
         <Route path="/post-list" element={<PostList />} />
         <Route path="/post-update" element={<PostUpdate />} />
+        <Route path="/confirm-email" element={<ConfirmEmail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
