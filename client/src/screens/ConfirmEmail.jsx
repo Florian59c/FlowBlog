@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import './css/ConfirmEmail.css';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
@@ -22,8 +22,21 @@ function ConfirmEmail() {
 
     return (
         <div>
-            <p>id : {userId}</p>
-            <p>{verify}</p>
+            <section class="py-3 py-md-5 mt-5 d-flex justify-content-center align-items-center">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="text-center">
+                                <h3 class="h2 mb-5">{verify}</h3>
+                                <Link to="/">
+                                    <button class="btn bsb-btn-5xl btn-dark rounded-pill px-5 fs-6 m-0">Retourner à la page d'acceuil</button>
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <p></p>
         </div>
     )
 }

@@ -111,7 +111,7 @@ class UserController extends AbstractController
             $currentUser->setIsVerified(true);
             $userRepository->add($currentUser, true);
 
-            return $this->json("Votre compte a bien été vérifié");
+            return $this->json("Votre compte a bien été vérifié !");
         } else {
             return $this->json("Nous n'avons pas réussi à trouver votre compte");
         }
