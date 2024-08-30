@@ -99,4 +99,25 @@ class UserController extends AbstractController
             }
         }
     }
+
+    /**
+     * @Route("/verifyUser", name="verifyUser")
+     */
+    public function verifyUser(UserRepository $userRepository, Request $request): Response
+    {
+        $data = json_decode($request->getContent(), true);
+        $currentUser = $userRepository->findOneBy(['id' => $data['id']]);
+        if ($currentUser) {
+            if (!$currentUser->isIsVerified()) {
+                $currentUser->setIsVerified(true);
+                $userRepository->add($currentUser, true);
+
+                return $this->json("ok");
+            } else {
+                return $this->json("alreadyValidated");
+            }
+        } else {
+            return $this->json("errorUser");
+        }
+    }
 }

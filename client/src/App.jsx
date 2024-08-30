@@ -23,7 +23,7 @@ function App() {
         <Route path="/post-detail/:url" element={<PostDetail />} />
         <Route path="/post-list" element={<PostList />} />
         <Route path="/post-update" element={<PostUpdate />} />
-        <Route path="/confirm-email" element={<ConfirmEmail />} />
+        <Route path="/confirm-email/:id" element={<ConfirmEmail />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
